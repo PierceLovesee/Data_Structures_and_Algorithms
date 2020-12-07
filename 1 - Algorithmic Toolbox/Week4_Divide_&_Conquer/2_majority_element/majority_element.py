@@ -35,7 +35,6 @@ def majority_element(arr, left, right):
     # only difference is we are sorting to have the majority element present
     # first in the array after sorting
 
-
     # once base case is reached, start comparing left half and righ halfs
     # from the stack.  Take any left half majority elements present in the
     # right half non-majority elements, and place them in the left half
