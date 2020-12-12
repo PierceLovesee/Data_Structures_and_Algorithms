@@ -21,7 +21,7 @@ def optimal_sequence(n):
 
 
     sequence = []
-    while n >= 1:
+    while n > 1:
         sequence.append(n)
         operations = [n/3, n/2, n - 1]
         previousOps = n**2
@@ -37,8 +37,7 @@ def optimal_sequence(n):
 input = sys.stdin.read()
 n = int(input)
 assert 1 <= n <= 10**6
-print(optimal_sequence(n))
 sequence = list(optimal_sequence(n))
 print(len(sequence) - 1)
 for x in sequence:
-    print(x, end=' ')
+    print(x, end=" ")
