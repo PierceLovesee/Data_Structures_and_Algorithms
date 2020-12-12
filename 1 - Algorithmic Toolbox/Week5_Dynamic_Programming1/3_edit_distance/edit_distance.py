@@ -1,4 +1,6 @@
-# Uses python3
+# Pierce Lovesee
+# December 12, 2020
+
 def edit_distance(s, t):
     """
        s: subject string to convert
