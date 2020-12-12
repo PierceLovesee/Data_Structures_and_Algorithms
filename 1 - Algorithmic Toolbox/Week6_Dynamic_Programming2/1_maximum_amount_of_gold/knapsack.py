@@ -1,5 +1,8 @@
-#Pierce Lovesee
-#December 12th, 2020
+# Pierce Lovesee
+# December 12th, 2020
+# Completed Solution to KnapSack
+# Result: (Max time used: 0.65/10.00, max memory used: 32243712/536870912.)
+
 import sys
 
 def optimal_weight(capacity, w):
@@ -20,17 +23,27 @@ def optimal_weight(capacity, w):
     for row in range(rows): # populate first column with 0's
         Value[row][0] = 0 # i.e. if no loot can be taken, value = 0
 
+    # Look at each available item, one at a time (columns across top) **
     for column in range(1, columns): # available items
+        # ** populating each sub-section of the capacity with how much
+        # weight can be held in that sub-section of the bag (rows going down)
+        # based on the item being looked at
         for row in range(rows):      # sack capacity
             # start by skipping the item and then evaluating
             Value[row][column] = Value[row][column - 1]
 
-            # row index value equivalent to
-            if row > w[column - 1]:
+            # 'row' index value equivalent to the sub-section of capacity
+            # you are considering at any given time
+            # so, if the item under consideration is able to in the subsection
+            # of capacity being looked at, then  ***
+            if row >= w[column - 1]:
+                # *** the maximum value is taken from either the value already
+                # stored, or the value in the index back the item's weight
+                # and over 1 to the left plus the items weight
                 Value[row][column] = max(Value[row][column],
                                     Value[row - w[column - 1]][column - 1] +
                                      w[column - 1])
-                                     
+
     return Value[capacity][len(w)]
 
 if __name__ == '__main__':
