@@ -5,7 +5,7 @@ def optimal_sequence(n):
     minOps = [0] * (n + 1)
 
 
-    for i in range(1, n + 1):
+    for i in range(2, n + 1):
         ops = [i/3, i/2, i - 1] # putting this here because i needs to be defined; may need to move for space
         minOps[i] = n + 10
 
