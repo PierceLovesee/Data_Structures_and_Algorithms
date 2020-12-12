@@ -1,4 +1,7 @@
-# Uses python3
+# Pierce Lovesee
+# December 11th, 2020
+# written in Python3; will not work in python2
+
 import sys
 
 def optimal_sequence(n):
@@ -11,7 +14,7 @@ def optimal_sequence(n):
 
         for op in ops:
             if op % 1 == 0:
-                numOps = minOps[op] + 1
+                numOps = minOps[int(op)] + 1
                 if numOps < minOps[i]:
                     minOps[i] = numOps
 
