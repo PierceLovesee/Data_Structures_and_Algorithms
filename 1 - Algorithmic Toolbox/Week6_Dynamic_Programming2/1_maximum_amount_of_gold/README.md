@@ -9,7 +9,7 @@ your bag. There is just one copy of each bar and for each bar you can either tak
 The solution to this problem is to first recognize that the will be a discrete non-repeating knapsack problem.  We know that we can not successfully implement a greedy algorithm to solve this problem, we need to use a dynamic programming approach.  
 
 #### Implementation:
-###### Inputs:
+##### Inputs:
 We will need to following inputs to solve this problem:
 1. **capacity**: int; the total capacity of the knapsack
 2. **n**: int; total number of bars of gold
@@ -17,10 +17,10 @@ We will need to following inputs to solve this problem:
 
 ___Note___: We will not need a list of values for each bar; each unit weight of the gold is assumed to be the same value.
 
-###### Outputs:
+##### Outputs:
 The program will out put the maximum weight of gold we can fit in the bag based on the weights of the discrete bars of gold.
 
-###### Algorithm:
+##### Algorithm:
 To solve this problem, we will need to create a two dimensional array (2-dimensional list) to hold the maximum amount of gold we are able to hold at each incremental unit of knapsack capacity. This array, or table, will be constructed of ___n + 1___ columns and ___capacity + 1___ rows.  
 
 The fist column (representing no items taken) will be filled with zeros.
@@ -33,4 +33,4 @@ If the subject item can fit into the incremental capacity of the knapsack, then 
 1. skipping the subject item
 2. or, the weight of the subject item plus the value (weight) stored in the table in the column of the previous item and at the row of ___incremental_weight - weight_of_subject_item___ (essentially going back and checking if both this item, and the last item can fit)
 
-Once this 2-dimensional loop has computed all possible combinations of incremental weights and combinations of items, the maximum amount of loot able to fit in the bag, while remaining less than or equal to the capacity of the knapsack will be stored if the cell corresponding to the last item in ___w___ and the full capacity of the knapsack ___capacity___ (i.e. Value[capacity][n]). 
+Once this 2-dimensional loop has computed all possible combinations of incremental weights and combinations of items, the maximum amount of loot able to fit in the bag, while remaining less than or equal to the capacity of the knapsack will be stored if the cell corresponding to the last item in ___w___ and the full capacity of the knapsack ___capacity___ (i.e. Value[capacity][n]).
