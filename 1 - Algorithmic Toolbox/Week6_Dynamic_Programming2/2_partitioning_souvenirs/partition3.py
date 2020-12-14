@@ -29,10 +29,11 @@ def partition3(A):
     for i in range(n):
         T[0][i] = True
 
-    for row in range(1, p + 1):
+    for row in range(1, p):
         for column in range(1, n):
             # initialize subject cell as skipping the column(i) element in A
-            #T[row][column] = T[row][column - 1]
+            # we do need to be able to carry over and skip elements
+            T[row][column] = T[row][column - 1]
 
             # check to see if A[column - 1] can be added in to the sum based on
             # previous elements
@@ -40,9 +41,13 @@ def partition3(A):
                 T[row][column] = ((T[row][column]) or
                                     (T[row - A[column - 1]][column - 1]))
 
-    for i in range(p + 1):
-        print(i)
-        print(T[i])
+    for column in range(1, n):
+        if p >= A[column - 1]:
+            T[p][column] = T[p - A[column - 1]][column - 1]
+
+    # for i in range(p + 1):
+    #     print(i)
+    #     print(T[i])
 
     # if T[p][n -1]:
     #     return 1
