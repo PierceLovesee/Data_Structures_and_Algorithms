@@ -7,7 +7,7 @@ def partition3(A):
     if sum(A) % 3 != 0:
         return 0
 
-    p  = int(sum(a) / 3)
+    p  = int(sum(A) / 3)
     n = len(A) + 1
 
     # indexing T[row][column]
@@ -31,11 +31,13 @@ def partition3(A):
 
             # check to see if A[column - 1] can be added in to the sum based on
             # previous elements
-            if A[column - 1] >= row:
+            if row >= A[column - 1]:
                 T[row][column] = ((T[row][column]) or
                                     (T[row - A[column - 1]][column - 1]))
 
-    print(T[p])
+    for i in range(p + 1):
+        print(i)
+        print(T[i])
 
     if T[p][n -1]:
         return 1
@@ -47,6 +49,6 @@ if __name__ == '__main__':
     n, *A = list(map(int, input.split()))
     assert len(A) == n
     assert 1 <= n <= 20
-    for i in A:
-        assert 1 <= i <= 30
+#    for i in A:
+#        assert 1 <= i <= 30
     print(partition3(A))
