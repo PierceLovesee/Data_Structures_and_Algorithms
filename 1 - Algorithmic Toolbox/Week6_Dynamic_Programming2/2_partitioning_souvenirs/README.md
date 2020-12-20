@@ -1,15 +1,3 @@
-
-# Logic
-0th row has to be all True.  This represents that any valid sum of elements in ___A___ summing ___p___ can have 0 added to them and still be valid.
-
-0th column has to be all Fasle, except for ___T[0][0]___ set to True, becuase otherwise the entire Truth table would evaluate to True.
-
-
-
-The last row is treated differently than the rest of the matrix; it can not carry over the boolean value from the cell to it's left (or "skip" the element in A) because the last row shows what combinations work.  A True in T[p] indicates the existance on a valid combiniation of some elements in A that sum to be equal to ___sum(A) / 3____.  Then, if there are at least 3 True's in row ___p___ of the matrix, then is is possible to partition the array ___A___ into 3 equal parts.
-
-
-
 ## Week 6 - Dynamic Programming 2
 ### Partitioning Souvenirs
 #### Problem Introduction:
@@ -31,18 +19,10 @@ User input will be in the form ___n, A<sub>0</sub>, A<sub>1</sub>, ... , A<sub>n
 The prorgram will output _1_ if the elements in ___A___ are able to be evenly divided into 3 partitions; outputs _0_ otherwise.
 
 ##### Algorithm:
-To solve this problem, we will need to create a two dimmensional array, or table ___T___, to act as a truth table.  The table will have ___n___ columns and ___p___ rows.  All elements of ___T___ will be initialized to ___False___, except for the first row, ___T[0]___, which will be initialized to _True_
+To solve this problem, we will need to create a two dimensional array, or table ___T___, to act as a truth table.  The table will have ___n___ columns and ___p___ rows.  All elements of ___T___ will be initialized to ___False___, except for the first row, ___T[0]___, which will be initialized to _True_
 
-To solve this problem, we will need to create a two dimensional array (2-dimensional list) to hold the maximum amount of gold we are able to hold at each incremental unit of knapsack capacity. This array, or table, will be constructed of ___n + 1___ columns and ___capacity + 1___ rows.
+What the algorithm does is determines what combinations of the souvenirs result in valid combinations (i.e. value adds to be 1/3 of the total value of the souvenirs).  Each item is considered along all possible values of ___p___, if it can fit into ___p<sub>i</sub>___ then, and if ___i - value<sub>item</sub>___ in the same column is equal to ___True___ (i.e. meaning that there is a valid combination that will get you to that depth in the table) then the subject cell is set to True.  Was a point along ___p___ is found where an item is valid, that ___True___ value is carried right though out the table.  What this allows is for some items to be "skipped" in consideration for certain combinations (i.e. items 1, 4, 5 are a valid combination, but items 1, 2, 3, 4 is not a valid combination).  As the algorithm progresses from left to right in the table, it will begin to come to valid combinations that sum to ___p___.  Only the first ___p - 1___ rows are considered in the first part of the algorithm.  
 
-The fist column (representing no items taken) will be filled with zeros.
+Once all items have been considered, and all rows or possible combinations have been evaluated up to ___p - 1___ a second iterative algorithm is used to evaluate the last row.  The last row of the table represents if each respective item has a valid combination to sums to ___p___.  This part of the code uses a separate loop because we do not want to carry over the value from the previous column in the row like we have to do in the rest of the table (to be able to skip items).  Considering each item, the algorithm looks at the value in ___row = p - value<sub>item</sub>___ and ___column = column<sub>item</sub> - 1___; if this value is ___True___ then there is a valid combination with the subject item as the last element, so ___True___ is recorded in the last row under the item, otherwise that value remains ___False___.  Each item is considered in this way.
 
-Then a 2 dimensional loop will be executed; looping though all incremental weights in ___capacity___ within a loop iterating through all items in ___w___. For each cell, the value will be initialized to the value immediately to it's left (assuming the subject item will be skipped, and then compared from there).
-
-If the current row index (i.e. the incremental capacity of the knapsack) is greater than or equal to the weight of the subject item (i.e. ___w[column_index - 1]___), then it is possible to fit the subject item in the knapsack, so further comparison is needed; if not then the "item is skipped" and the incremental capacity of the knapsack is increased by one, and the comparison continues.
-
-If the subject item can fit into the incremental capacity of the knapsack, then value stored in the table cell is the maximum of the following:
-1. skipping the subject item
-2. or, the weight of the subject item plus the value (weight) stored in the table in the column of the previous item and at the row of ___incremental_weight - weight_of_subject_item___ (essentially going back and checking if both this item, and the last item can fit)
-
-Once this 2-dimensional loop has computed all possible combinations of incremental weights and combinations of items, the maximum amount of loot able to fit in the bag, while remaining less than or equal to the capacity of the knapsack will be stored if the cell corresponding to the last item in ___w___ and the full capacity of the knapsack ___capacity___ (i.e. Value[capacity][n]).
+Once the last row of the table is resolved, each ___True___ in the last row is counted.  If there more than three ___Trues___, then we know that there are at least three valid combinations of the souvenirs that sum to a value of exactly ___p___; meaning the souvenirs are indeed able to be evenly partitioned into three equal parts.
