@@ -49,6 +49,8 @@ def find_mismatch(text):
 
 def main():
     text = input()
+    # grader constraints
+    assert 1 <= text <= 10**5
     mismatch = find_mismatch(text)
     print(mismatch)
 
