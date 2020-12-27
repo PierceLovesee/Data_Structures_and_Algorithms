@@ -1,6 +1,9 @@
 # python3
 # Pierce Lovesee
 # December 27th, 2020
+# Completed
+# Grader Output:
+# Good job! (Max time used: 1.07/3.00, max memory used: 163237888/536870912.)
 
 import sys, threading
 
