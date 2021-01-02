@@ -3,7 +3,6 @@
 # Janurary 2nd, 2021
 
 import sys
-from random import randint
 
 
 class StackWithMax():
