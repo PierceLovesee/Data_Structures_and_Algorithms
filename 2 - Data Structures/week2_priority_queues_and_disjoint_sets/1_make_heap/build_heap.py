@@ -1,24 +1,55 @@
 # python3
+# Pierce Lovesee
+# January 5th, 2021
 
 
-def build_heap(data):
+def swap(x, y):
+    """
+    Two indicies in the data array
+    Swaps the two values at the given idexes in inplace
+    Record the Indicies swapped in the swaps list
+    """
+    data[x], data[y] = data[y], data[x]
+    swaps.append((x, y))
+
+def parent(i):
+    return((i-1) // 2)
+
+def leftChild(i):
+    return((2*i) + 1)
+
+def rightChild(i):
+    return((2*i) + 2)
+
+def siftDown(i):
+    maxIndex = i
+    L = leftChild(i)
+    if ((L <= len(data)) and (data[L] < data[maxIndex])):
+        maxIndex = L
+    R = rightChild(i)
+    if ((R <= len(data)) and (data[R] < data[maxIndex])):
+        maxIndex = R
+    if i != maxIndex:
+        swap(i, maxIndex)
+        siftDown(maxIndex)
+
+def siftUp(i):
+    while ((i > 0) and (data[parent(i)] > data[i])):
+        swap(parent(i), i)
+        i = parent(i)
+
+def buildHeap(data):
     """Build a heap from ``data`` inplace.
 
     Returns a sequence of swaps performed by the algorithm.
     """
-    # The following naive implementation just sorts the given sequence
-    # using selection sort algorithm and saves the resulting sequence
-    # of swaps. This turns the given array into a heap, but in the worst
-    # case gives a quadratic number of swaps.
-    #
-    # TODO: replace by a more efficient implementation
     swaps = []
-    for i in range(len(data)):
-        for j in range(i + 1, len(data)):
-            if data[i] > data[j]:
-                swaps.append((i, j))
-                data[i], data[j] = data[j], data[i]
-    return swaps
+
+    size = len(data) - 1
+    for i in range((size // 2), -1, -1):
+        siftDown(i)
+    return(swaps)
+
 
 
 def main():
@@ -26,12 +57,11 @@ def main():
     data = list(map(int, input().split()))
     assert len(data) == n
 
-    swaps = build_heap(data)
+    swaps = buildHeap(data)
 
     print(len(swaps))
     for i, j in swaps:
         print(i, j)
-
 
 if __name__ == "__main__":
     main()
