@@ -1,9 +1,10 @@
 # python3
 # Pierce Lovesee
 # January 5th, 2021
+# Grader Output: (Max time used: 0.21/3.0, max memory used: 26038272/536870912.)
 
 
-def swap(x, y):
+def swap(data, swaps, x, y):
     """
     Two indicies in the data array
     Swaps the two values at the given idexes in inplace
@@ -21,17 +22,19 @@ def leftChild(i):
 def rightChild(i):
     return((2*i) + 2)
 
-def siftDown(i):
+def siftDown(data, swaps, i):
     maxIndex = i
-    L = leftChild(i)
-    if ((L <= len(data)) and (data[L] < data[maxIndex])):
-        maxIndex = L
-    R = rightChild(i)
-    if ((R <= len(data)) and (data[R] < data[maxIndex])):
-        maxIndex = R
+    if leftChild(i) < len(data):
+        L = leftChild(i)
+        if ((L <= len(data)) and (data[L] < data[maxIndex])):
+            maxIndex = L
+    if rightChild(i) < len(data):
+        R = rightChild(i)
+        if ((R <= len(data)) and (data[R] < data[maxIndex])):
+            maxIndex = R
     if i != maxIndex:
-        swap(i, maxIndex)
-        siftDown(maxIndex)
+        swap(data, swaps, i, maxIndex)
+        siftDown(data, swaps, maxIndex)
 
 def siftUp(i):
     while ((i > 0) and (data[parent(i)] > data[i])):
@@ -47,7 +50,7 @@ def buildHeap(data):
 
     size = len(data) - 1
     for i in range((size // 2), -1, -1):
-        siftDown(i)
+        siftDown(data, swaps, i)
     return(swaps)
 
 
