@@ -10,6 +10,7 @@ class Heap(object):
         also initalize a list that records the swaps made in the
         heap between elements"""
         self.heap = []
+        self.jobs = []
         self.swaps = []
 
     def __str__(self):
@@ -40,8 +41,8 @@ class Heap(object):
     def siftDown(self, i):
         """ sifts the ith element down in the heap """
         maxIndex = i
-        if leftChild(i) < len(self.heap):
-            L = leftChild(i)
+        if self.leftChild(i) < len(self.heap):
+            L = self.leftChild(i)
             if ((L <= len(self.heap)) and (self.heap[L].timeAvailable
             < self.heap[maxIndex].timeAvailable)):
                 maxIndex = L
@@ -50,8 +51,8 @@ class Heap(object):
             elif ((L <= len(self.heap)) and
             (self.heap[L].orgIndex < self.heap[maxIndex].orgIndex)):
                 maxIndex = L
-        if rightChild(i) < len(self.heap):
-            R = rightChild(i)
+        if self.rightChild(i) < len(self.heap):
+            R = self.rightChild(i)
             if ((R <= len(self.heap)) and (self.heap[R].timeAvailable
             < self.heap[maxIndex].timeAvailable)):
                 maxIndex = R
@@ -61,8 +62,8 @@ class Heap(object):
             (self.heap[R].orgIndex < self.heap[maxIndex].orgIndex)):
                 maxIndex = R
         if i != maxIndex:
-            swap(i, maxIndex)
-            siftDown(maxIndex)
+            self.swap(i, maxIndex)
+            self.siftDown(maxIndex)
 
     def siftUp(self, i):
         while (((i > 0) and (self.heap[parent(i)].timeAvailable > self.heap[i].timeAvailable))
@@ -80,9 +81,8 @@ class Heap(object):
     def buildHeap(self, n_workers):
         """ Build a heap of Workers from 'data' """
         for i in range((n_workers - 1), -1, -1):
-            worker = Workers(i)
-            self.heap.append(worker)
-            siftDown(i)
+            self.heap.append(Workers(i))
+            self.siftDown(i)
 
 
 class Workers(Heap):
@@ -90,34 +90,23 @@ class Workers(Heap):
         self.orgIndex = n
         self.timeAvailable = 0
 
+class AssignedJob(Heap):
+    def __init__(self, orgIndex, timeAvailable):
+        self.worker = orgIndex
+        self.start = timeAvailable
 
-def buildHeap(data):
-    """Build a heap from 'data' inplace.
-
-    Returns a sequence of swaps performed by the algorithm.
-    """
-    swaps = [] # list to store tuple values of swapped indecies
-
-    size = len(data) - 1 # current size of heap; max index
-    for i in range((size // 2), -1, -1): # working up from leafs
-    # each leaf is a proper tree, so must start from bottom and work up
-        siftDown(data, swaps, i) # sift down called for each
-    return(swaps)
-
-
-# naive implementation O(n^2)
-AssignedJob = namedtuple("AssignedJob", ["worker", "started_at"])
 
 def assign_jobs(n_workers, jobs):
-    # TODO: replace this code with a faster algorithm.
-    result = []
-    next_free_time = [0] * n_workers
-    for job in jobs:
-        next_worker = min(range(n_workers), key=lambda w: next_free_time[w])
-        result.append(AssignedJob(next_worker, next_free_time[next_worker]))
-        next_free_time[next_worker] += job
+    workerHeap = Heap()
+    workerHeap.buildHeap(n_workers)
+    # do the following while the jobs list is not empty
+    while bool(jobs):
+        job = jobs.pop(0)
+        workerHeap.jobs.append(AssignedJob(workerHeap.heap[0].orgIndex, workerHeap.heap[0].timeAvailable))
+        workerHeap.heap[0].timeAvailable += job
+        workerHeap.siftDown(0)
+    return workerHeap.jobs
 
-    return result
 
 
 def main():
@@ -128,7 +117,7 @@ def main():
     assigned_jobs = assign_jobs(n_workers, jobs)
 
     for job in assigned_jobs:
-        print(job.worker, job.started_at)
+        print(job.worker, job.start)
 
 
 if __name__ == "__main__":
