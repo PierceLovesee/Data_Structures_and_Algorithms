@@ -5,21 +5,26 @@
 
 
 def swap(data, swaps, x, y):
-    """
-    Two indicies in the data array
+    """ Two indicies in the data array
     Swaps the two values at the given idexes in inplace
-    Record the Indicies swapped in the swaps list
+    Record the indicies swapped in the swaps list
     """
     data[x], data[y] = data[y], data[x]
     swaps.append((x, y))
 
 def parent(i):
+    """ Returns index of parent for node i
+    """
     return((i-1) // 2)
 
 def leftChild(i):
+    """ Returns index of left node for node i
+    """
     return((2*i) + 1)
 
 def rightChild(i):
+    """ Returns index of right node for node i
+    """
     return((2*i) + 2)
 
 def siftDown(data, swaps, i):
@@ -42,15 +47,16 @@ def siftUp(i):
         i = parent(i)
 
 def buildHeap(data):
-    """Build a heap from ``data`` inplace.
+    """Build a heap from 'data' inplace.
 
     Returns a sequence of swaps performed by the algorithm.
     """
-    swaps = []
+    swaps = [] # list to store tuple values of swapped indecies
 
-    size = len(data) - 1
-    for i in range((size // 2), -1, -1):
-        siftDown(data, swaps, i)
+    size = len(data) - 1 # current size of heap; max index
+    for i in range((size // 2), -1, -1): # working up from leafs
+    # each leaf is a proper tree, so must start from bottom and work up
+        siftDown(data, swaps, i) # sift down called for each
     return(swaps)
 
 
