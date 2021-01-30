@@ -2,7 +2,7 @@
 # Pierce Lovesee
 # January 11th, 2021
 
-from collections import namedtuple
+#from collections import namedtuple
 
 class Heap(object):
     def __init__(self):
@@ -23,7 +23,7 @@ class Heap(object):
         result = self.heap[0]
         self.heap[0] = self.heap[self.size]
         size = size - 1
-        siftdown(0)
+        self.siftDown(0)
         return result
 
     def parent(self, i):
@@ -43,34 +43,32 @@ class Heap(object):
         maxIndex = i
         if self.leftChild(i) < len(self.heap):
             L = self.leftChild(i)
-            if ((L <= len(self.heap)) and (self.heap[L].timeAvailable
-            < self.heap[maxIndex].timeAvailable)):
+            # check which is available first
+            if (self.heap[L].timeAvailable == self.heap[maxIndex].timeAvailable):
+                if (self.heap[L].orgIndex < self.heap[maxIndex].orgIndex):
+                    maxIndex = L
+            elif (self.heap[L].timeAvailable < self.heap[maxIndex].timeAvailable):
                 maxIndex = L
 
-            # account for proper org. index order in min-heap
-            elif ((L <= len(self.heap)) and
-            (self.heap[L].orgIndex < self.heap[maxIndex].orgIndex)):
-                maxIndex = L
         if self.rightChild(i) < len(self.heap):
             R = self.rightChild(i)
-            if ((R <= len(self.heap)) and (self.heap[R].timeAvailable
-            < self.heap[maxIndex].timeAvailable)):
+            # check which is available first
+            if (self.heap[R].timeAvailable == self.heap[maxIndex].timeAvailable):
+                if (self.heap[R].orgIndex < self.heap[maxIndex].orgIndex):
+                    maxIndex = R
+            elif (self.heap[R].timeAvailable < self.heap[maxIndex].timeAvailable):
                 maxIndex = R
 
-            # account for proper org. index order in min-heap
-            elif ((R <= len(self.heap)) and
-            (self.heap[R].orgIndex < self.heap[maxIndex].orgIndex)):
-                maxIndex = R
         if i != maxIndex:
             self.swap(i, maxIndex)
             self.siftDown(maxIndex)
 
     def siftUp(self, i):
-        while (((i > 0) and (self.heap[parent(i)].timeAvailable > self.heap[i].timeAvailable))
-        or ((self.heap[parent(i)].timeAvailable == self.heap[i].timeAvailable)
-        and (self.heap[parent(i)].orgIndex > self.heap[i].orgIndex))):
-            swap(parent(i), i)
-            i = parent(i)
+        while (((i > 0) and (self.heap[self.parent(i)].timeAvailable > self.heap[i].timeAvailable))
+        or ((self.heap[self.parent(i)].timeAvailable == self.heap[i].timeAvailable)
+        and (self.heap[self.parent(i)].orgIndex > self.heap[i].orgIndex))):
+            self.swap(self.parent(i), i)
+            i = self.parent(i)
 
     def swap(self, x, y):
         """ swaps the elemnts at index x and y in the heap
@@ -78,11 +76,13 @@ class Heap(object):
         self.heap[x], self.heap[y] = self.heap[y], self.heap[x]
         self.swaps.append((x, y))
 
+
     def buildHeap(self, n_workers):
         """ Build a heap of Workers from 'data' """
-        for i in range((n_workers - 1), -1, -1):
+        for i in range(n_workers):
             self.heap.append(Workers(i))
-            self.siftDown(i)
+        for j in range((n_workers - 1), -1, -1):
+            self.siftDown(j)
 
 
 class Workers(Heap):
