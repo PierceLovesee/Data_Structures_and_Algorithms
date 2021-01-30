@@ -1,6 +1,8 @@
 # python3
 # Pierce Lovesee
 # January 11th, 2021
+# Grader Output:
+# (Max time used: 3.65/12.00, max memory used: 189681664/536870912.)
 
 class Heap(object):
     def __init__(self):
@@ -84,11 +86,15 @@ class Heap(object):
 
 
 class Workers(Heap):
+    """ Class of objects stored within the heap to represent
+    each processing stream and when it will be available """
     def __init__(self, n):
         self.orgIndex = n
         self.timeAvailable = 0
 
 class AssignedJob(Heap):
+    """ Class of objects used to record when each job is started
+    used to output result """
     def __init__(self, orgIndex, timeAvailable):
         self.worker = orgIndex
         self.start = timeAvailable
