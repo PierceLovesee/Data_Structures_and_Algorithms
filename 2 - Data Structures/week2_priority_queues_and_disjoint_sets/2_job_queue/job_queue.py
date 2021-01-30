@@ -2,8 +2,6 @@
 # Pierce Lovesee
 # January 11th, 2021
 
-#from collections import namedtuple
-
 class Heap(object):
     def __init__(self):
         """ The heap object is initalized as an empty node list
