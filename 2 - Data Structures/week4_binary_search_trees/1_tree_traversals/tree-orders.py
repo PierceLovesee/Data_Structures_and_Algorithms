@@ -80,13 +80,33 @@ class TreeOrders:
 
   def postOrder(self):
       self.result = []
+      self.leftStack = []
+      self.rightStack = []
+      i = 0
 
-      def recursivePostOrder(node):
-          if node == None:
-              return
-          recursivePostOrder()
+      while True:
 
-      recursivePostOrder(self.key[0])
+          if (i not in self.leftStack) and (i != -1):
+              self.leftStack.append(i)
+              i = self.left[i]
+
+          elif(self.leftStack):
+              i = self.leftStack[-1]
+              if i in self.rightStack:
+                  i = self.leftStack.pop()
+                  self.result.append(self.key[i])
+                  if(self.leftStack):
+                      i = self.leftStack[-1]
+                  else:
+                      break
+              else:
+                  self.rightStack.append(i)
+                  i = self.right[i]
+          else:
+              break
+
+
+
       return self.result
 
 def main():
