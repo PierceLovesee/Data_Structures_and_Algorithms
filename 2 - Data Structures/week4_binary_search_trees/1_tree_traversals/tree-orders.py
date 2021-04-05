@@ -20,7 +20,7 @@ class TreeOrders:
       self.left[i] = b
       self.right[i] = c
 
-  def inOrder(self):
+  def inOrder(self): # In-Order: Left --> Node --> Right
     self.result = [] # list for holding the inOrder result
     self.stack = [] #stack to keep track of where you've been
     i = 0 # index of the tree's root node in the list
@@ -56,58 +56,55 @@ class TreeOrders:
     # return the results list of the inOrder traversal
     return self.result
 
-  def preOrder(self):
+  def preOrder(self): # Pre-Order: Node --> Left --> Right
       self.result = [] # list for holding the preOrder result
-      self.stack = [] #stack to keep track of where you've been
-      i = 0 # index of the tree's root node in the list
+      self.stack = [] #stack to note what nodes we have visited
+      i = 0 # index of the tree's root node (initialize)
 
-      while True:
-
-          if i != -1:
-
-              self.result.append(self.key[i])
-              self.stack.append(i)
-              i = self.left[i]
-
-          elif(self.stack):
-              i = self.stack.pop()
-              i = self.right[i]
-
+      while True: # repeat the following until all nodes are visited
+          if i != -1: # if we have not reached a leaf (-1 child)
+              self.result.append(self.key[i]) # add this node to the results
+              self.stack.append(i) # note that we have visited this node
+              i = self.left[i] # go to this node's left child
+          # once we reach a leaf going left, it's time to visit the right nodes
+          elif(self.stack): # until the stack is empty
+              i = self.stack.pop() # look at the last node
+              i = self.right[i] # go to it's right child
           else:
-              break
+              break # otherwise, break out of the True loop
 
-      return self.result
+      return self.result # return the results of the preOrder traversal
 
-  def postOrder(self):
-      self.result = []
-      self.leftStack = []
-      self.rightStack = []
-      i = 0
+  def postOrder(self): # Post-Order: Left --> Right --> Node
+      self.result = [] # holds results of traversal
+      self.leftStack = [] # holds nodes that we have gone left from
+      self.rightStack = [] # holds nodes that we have gone right from
+      i = 0 # index of the root node (initalize)
 
-      while True:
-
+      while True:  # repeate until all nodes are visited
+          # prefer to go left; if we have not reached a leaf (-1 children) and
+          # the current node has not already been visited and exited going left
           if (i not in self.leftStack) and (i != -1):
-              self.leftStack.append(i)
-              i = self.left[i]
+              self.leftStack.append(i) # then add it to the leftStack
+              i = self.left[i] # and go to it's left child
 
+          # otherwise, do the following while there are still nodes on the leftStack
           elif(self.leftStack):
-              i = self.leftStack[-1]
-              if i in self.rightStack:
-                  i = self.leftStack.pop()
-                  self.result.append(self.key[i])
-                  if(self.leftStack):
-                      i = self.leftStack[-1]
+              i = self.leftStack[-1] # peek at the last node of the leftStack
+              if i in self.rightStack: # **if we have gone right from that node
+                  i = self.leftStack.pop() # then remove it from leftStack
+                  self.result.append(self.key[i]) # add it to results
+                  if(self.leftStack): # then if leftStack is not empty
+                      i = self.leftStack[-1] # look at the top of leftStack again
                   else:
-                      break
-              else:
-                  self.rightStack.append(i)
-                  i = self.right[i]
+                      break # otherwise, break out of the True loop
+              else:  # **if we have not gone right from that node
+                  self.rightStack.append(i) # add that node to the rightStack
+                  i = self.right[i] # and visit its right child
           else:
-              break
+              break # if all else failes, break out of the loop
 
-
-
-      return self.result
+      return self.result # return the results of the postOrder traversal
 
 def main():
 	tree = TreeOrders()
