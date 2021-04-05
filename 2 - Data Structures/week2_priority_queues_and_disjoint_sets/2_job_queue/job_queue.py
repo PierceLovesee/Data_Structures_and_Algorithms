@@ -8,7 +8,8 @@ class Heap(object):
     def __init__(self):
         """ The heap object is initalized as an empty node list
         also initalize a list that records the swaps made in the
-        heap between elements"""
+        heap between elements and tracks each job, what time it starts and
+        what processor it was assigned to"""
         self.heap = []
         self.jobs = []
         self.swaps = []
@@ -17,8 +18,8 @@ class Heap(object):
         """ Prints out the heap as list"""
         return self.heap
 
-    def extractMax(self):
-        """ Extracts and returns the max (top) element of the heap """
+    def extractMin(self):
+        """ Extracts and returns the min (top) element of the heap """
         size = len(self.heap)
         result = self.heap[0]
         self.heap[0] = self.heap[self.size]
@@ -39,7 +40,7 @@ class Heap(object):
         return((2*i) + 2)
 
     def siftDown(self, i):
-        """ sifts the ith element down in the heap """
+        """ sifts the ith element down in the heap into proper position """
         maxIndex = i
         if self.leftChild(i) < len(self.heap):
             L = self.leftChild(i)
