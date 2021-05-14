@@ -90,15 +90,18 @@ class TreeOrders:
 
           # otherwise, do the following while there are still nodes on the leftStack
           elif(self.leftStack):
-              i = self.leftStack[-1] # peek at the last node of the leftStack
+              # i = self.leftStack[-1] # peek at the last node of the leftStack
+              i = self.leftStack.pop()
               if i in self.rightStack: # **if we have gone right from that node
-                  i = self.leftStack.pop() # then remove it from leftStack
+                  # i = self.leftStack.pop() # then remove it from leftStack
                   self.result.append(self.key[i]) # add it to results
                   if(self.leftStack): # then if leftStack is not empty
-                      i = self.leftStack[-1] # look at the top of leftStack again
+                      # i = self.leftStack[-1] # look at the top of leftStack again
+                      i = self.leftStack[-1]
                   else:
                       break # otherwise, break out of the True loop
               else:  # **if we have not gone right from that node
+                  self.leftStack.append(i) # add that node to the rightStack
                   self.rightStack.append(i) # add that node to the rightStack
                   i = self.right[i] # and visit its right child
           else:
