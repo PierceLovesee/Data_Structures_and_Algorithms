@@ -5,6 +5,14 @@
 import sys
 
 def number_of_components(adj, nodeTruth):
+    """
+    Input: Takes a graph adjacency list as input with a truth table to track what
+    nodes have been visited.
+
+    Output: Returns the number of seperetly connected components in the graph
+    (i.e. if the graph is continuous, returns 1; if the graph has dead zones,
+    returns > 1; if the graph is empty, returns 0)
+    """
     def explore(v, CC):
         nonlocal nodeTruth
         nodeTruth[(v)][0] = True #mark the node as visited
@@ -31,7 +39,7 @@ if __name__ == '__main__':
     input = sys.stdin.read()
     data = list(map(int, input.split())) #stores user input
     n, m = data[0:2] #stores 'n' verticies and 'm' edges at start of user input
-    data = data[2:] #defines the graph data as all other use input
+    data = data[2:] #defines the graph data as all other user input
     #isolates the list of edges for later iteration
     edges = list(zip(data[0:(2 * m):2], data[1:(2 * m):2]))
     adj = [[] for _ in range(n)] #creates a list of 'n' empty lists
