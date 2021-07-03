@@ -40,10 +40,8 @@ if __name__ == '__main__':
     n, m = data[0:2] #n - num. vertices; m - num. edges (u to v with (w) weight)
     data = data[2:]
     edges = list(zip(data[0:(2 * m):2], data[1:(2 * m):2]))
-    # n, m = 4, 3
     visitedNodes = [False for _ in range(n)] #track nodes that are fully explored
     inPath = [False for _ in range(n)] #track what nodes are in a given path
-    # adj = [[1], [], [1], [2]]
     adj = [[] for _ in range(n)] #adjecency list
     for (a, b) in edges: # populate adjacency list
         adj[a - 1].append(b - 1) #populate adjacency list
