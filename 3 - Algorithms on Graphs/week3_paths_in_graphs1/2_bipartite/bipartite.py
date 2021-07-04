@@ -5,6 +5,8 @@
 import sys
 import queue
 
+#Note: not working fully.  failed grader test case.
+
 def bipartite(adj):
     dist = [-1 for _ in range(len(adj))] #distance of each node from origin
     # Function to execute the breadth-first search
