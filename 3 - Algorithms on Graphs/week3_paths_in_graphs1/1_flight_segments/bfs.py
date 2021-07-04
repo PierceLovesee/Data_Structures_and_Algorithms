@@ -12,43 +12,49 @@ def distance(adj, s, t, dist, prev):
 
     Output: (int) the shortest distance between 's' and 't'
     """
-    def BFS():
-        dist[s] = 0
-        Q = [s]
-        while bool(Q):
-            u = Q.pop(0)
-            for i in adj[u]:
-                if dist[i] == float('inf'):
-                    Q.append(i)
-                    dist[i] = dist[u] + 1
-                    prev[i] = u
-    BFS()
-    if dist[t] == float('inf'):
-        return -1
-    return dist[t]
+    def BFS(): #helper function to perform breadth-first search on graph
+        dist[s] = 0 #set start node's dist to zero
+        Q = [s] #initialize queue with start node
+        while bool(Q): #perform the following while Queue is not empty:
+            u = Q.pop(0) #dequeue the next element, let it be 'u'
+            for i in adj[u]: #for each adjacent node to 'u'
+                if dist[i] == float('inf'): #if it has not been discovered
+                    Q.append(i) #add it to the queue
+                    dist[i] = dist[u] + 1 #set it's dist to dist[u] + 1
+                    prev[i] = u #mark 'u' as its previous node
+    BFS() #envoke the breadth first search on the graph
+    if dist[t] == float('inf'): #if the target node was never discovered in BFS
+        return -1 #return error since it cannot be reached from start node
+    return dist[t] #otherwise, return the memoized distance to the target
 
 def reconPath(s, t, prev):
-    if prev[t] ==  -1:
+    """
+    Input: start node, target node, list of each node's previous shortest path
+    node.
+
+    Output: list of nodes to traverse the shortest path from start node to
+    target node
+    """
+    if prev[t] ==  -1: #if a previous node was not recorded for the target
+        #then return error message, no path from 's' to 't'
         return ("No Such Path Exists (" + str(s + 1) + ", " + str(t + 1) + ")")
 
-    reconPathList = []
-    reversedPathList = [s + 1]
+    reconPathList = [] #list for storing the reconstructed path F/'t' T/'s'
+    reversedPathList = [s + 1] #list for storing reversed path F/'s' T/'t'
 
-    def constructPath(s, t):
-        if t == s:
+    def constructPath(s, t): #helper function to reconstruct the path
+        if t == s: #once 't' is 's', break recursion
             return
-        reconPathList.append(t + 1)
-        constructPath(s, prev[t])
+        reconPathList.append(t + 1) #add 't' to the path
+        constructPath(s, prev[t]) #then recurs on 't's previous node
 
-    def reversePath():
+    def reversePath(): #helper to reverse the ordering of the list
         for _ in range(len(reconPathList)):
             reversedPathList.append(reconPathList.pop())
 
-    constructPath(s, t)
-    reversePath()
-    # print("backwads path list", reconPathList)
-    # print("forward path list", reversedPathList)
-    return(reversedPathList)
+    constructPath(s, t) #reconstruct the path F/'s' T/'t'
+    reversePath() #then reverse the path
+    return(reversedPathList) #return the reversed path
 
 if __name__ == '__main__':
     input = sys.stdin.read()
