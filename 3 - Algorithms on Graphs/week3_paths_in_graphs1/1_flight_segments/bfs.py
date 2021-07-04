@@ -1,6 +1,7 @@
 #Uses python3
 #Pierce Lovesee
 #July 3rd, 2021
+#Good job! (Max time used: 0.37/10.00, max memory used: 46055424/536870912.)
 
 import sys
 import queue
