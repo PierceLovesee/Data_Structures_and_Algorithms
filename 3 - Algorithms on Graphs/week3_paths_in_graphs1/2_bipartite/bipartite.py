@@ -4,8 +4,23 @@ import sys
 import queue
 
 def bipartite(adj):
-    #write your code here
-    return -1
+    dist = [-1 for _ in range(len(adj))]
+
+    def BFS():
+        dist[0] = 0
+        Q = [0]
+        while bool(Q):
+            u = Q.pop(0)
+            for i in adj[u]:
+                if dist[i] == -1:
+                    Q.append(i)
+                    dist[i] = dist[u] + 1
+                else:
+                    if ((dist[u] % 2) == (dist[i] % 2)):
+                        return 0
+        return 1
+        
+    return(BFS())
 
 if __name__ == '__main__':
     input = sys.stdin.read()
