@@ -1,6 +1,7 @@
 #Uses python3
 #Pierce Lovesee
 #July 4th, 2020
+#Good job! (Max time used: 0.25/10.00, max memory used: 45404160/536870912.)
 
 import sys
 import queue
@@ -29,7 +30,7 @@ def bipartite(adj):
                     #this is simply checking that only even level nodes are
                     #connected to odd level nodes, and visa-versa.
                     if ((dist[u] % 2) == (dist[i] % 2)):
-                        isBipartite = 0 #if even is connected to even, or odd to 
+                        isBipartite = 0 #if even is connected to even, or odd to
                         #odd, then return 0 signifying that the graph is not bipartite
 
     def islands(): #helper function to ensure that all islands are explored
