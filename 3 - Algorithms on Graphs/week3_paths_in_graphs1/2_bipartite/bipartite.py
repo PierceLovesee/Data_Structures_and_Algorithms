@@ -8,12 +8,17 @@ import queue
 #Note: not working fully.  failed grader test case.
 
 def bipartite(adj):
+    isBipartite = 1
+
     dist = [-1 for _ in range(len(adj))] #distance of each node from origin
     # Function to execute the breadth-first search
-    def BFS():
-        dist[0] = 0 #set the distance at the first node to 0
-        Q = [0] # add the first node to the queue
+    def BFS(v):
+        nonlocal isBipartite
+        dist[v] = 0 #set the distance at the first node to 0
+        Q = [v] # add the first node to the queue
         while bool(Q): #do the following while the queue is not empty
+            if isBipartite != 1: #if non-bipartite node found; break the loop
+                break
             u = Q.pop(0) #dequeue the next node in the queue, 'u'
             for i in adj[u]: #for each adjacent node to 'u'
                 if dist[i] == -1: #if it has not been visited
@@ -24,11 +29,19 @@ def bipartite(adj):
                     #this is simply checking that only even level nodes are
                     #connected to odd level nodes, and visa-versa.
                     if ((dist[u] % 2) == (dist[i] % 2)):
-                        return 0 #if even is connected to even, or odd to odd,
-                        #then return 0 signifying that the graph is not bipartite
-        return 1 #If the BFS executes succesfully, the graph is bipartite
+                        isBipartite = 0 #if even is connected to even, or odd to 
+                        #odd, then return 0 signifying that the graph is not bipartite
 
-    return(BFS()) #return the result fo the BFS
+    def islands(): #helper function to ensure that all islands are explored
+        nonlocal isBipartite
+        for v in range(len(adj)): #look at all verticies in the graph
+            if isBipartite != 1: #if a non-bipartite node found; break the loop
+                break
+            if dist[v] == -1: #if the node has not been explored, perform BFS
+                BFS(v)
+
+    islands() #evoke the BFS of the different islands in the graph
+    return(isBipartite) #return the result fo the BFS
 
 if __name__ == '__main__':
     input = sys.stdin.read()
