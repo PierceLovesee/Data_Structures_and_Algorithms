@@ -5,6 +5,7 @@
 import sys
 import queue
 
+#Note: try using the min-heap, but inputing lists wtih the distance as the key.
 
 def distance(adj, cost, s, t, dist, prev):
 
@@ -12,7 +13,7 @@ def distance(adj, cost, s, t, dist, prev):
         Q = [[float('inf'), i] for i in range(len(adj))] #min-priority queue
         # Q is prioritized based on minimum distance from 's'
         Q[s][0] = 0 # set distance to 's' to 0 in queue
-        dist[0] = 0 # set distance in dist array to 0 for 's'
+        dist[s] = 0 # set distance in dist array to 0 for 's'
         while bool(Q): #while the queue is not empty, do the following:
             Q = sorted(Q) #sort Q by distace and save as the new array
             u = Q.pop(0) #dequeue the node with the shortest distance from 's'
@@ -33,8 +34,10 @@ def distance(adj, cost, s, t, dist, prev):
 if __name__ == '__main__':
     input = sys.stdin.read()
     data = list(map(int, input.split()))
-    # data = [4, 4, 1, 2, 1, 4, 1, 2, 2, 3, 2, 1, 3, 5, 1, 3]
-    # data = [3, 3, 1, 2, 7, 1, 3, 5, 2, 3, 2, 3, 2]
+    # data = [4, 4, 1, 2, 1, 4, 1, 2, 2, 3, 2, 1, 3, 5, 1, 3] # 3
+    # data = [3, 3, 1, 2, 7, 1, 3, 5, 2, 3, 2, 3, 2] # -1
+    # data = [5, 10, 3, 5, 49438153, 2, 3, 78072041, 3, 4, 12409612, 1, 3, 88526216, 5, 2, 6876525, 1, 4, 28703032, 4, 1, 24629785, 4, 5, 96300300, 4, 3, 317823, 2, 5, 22632987, 4, 2] #56632501
+    # data = [5, 9, 1, 2, 4, 1, 3, 2, 2, 3, 2, 3, 2, 1, 2, 4, 2, 3, 5, 4, 5, 4, 1, 2, 5, 3, 3, 4 , 4, 1, 5] # 6
     n, m = data[0:2] #n - nodes | m - edges
     data = data[2:]
     edges = list(zip(zip(data[0:(3 * m):3], data[1:(3 * m):3]), data[2:(3 * m):3]))
@@ -45,6 +48,6 @@ if __name__ == '__main__':
         adj[a - 1].append(b - 1)
         cost[a - 1].append(w)
     s, t = data[0] - 1, data[1] - 1 #s - source node | t - target node
-    dist = [float('inf') for _ in range(n)] #array to store distance from source
+    dist = [float("inf") for _ in range(n)] #array to store distance from source
     prev = [-1 for _ in range(n)] #array for tracking previous node
     print(distance(adj, cost, s, t, dist, prev))
