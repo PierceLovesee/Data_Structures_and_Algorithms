@@ -33,8 +33,6 @@ def distance(adj, cost, s, t, dist, prev):
         return -1 #then return error
     return tDist #otherwise, return the cost-distance from 's' to 't'
 
-
-
 if __name__ == '__main__':
     input = sys.stdin.read()
     data = list(map(int, input.split()))
