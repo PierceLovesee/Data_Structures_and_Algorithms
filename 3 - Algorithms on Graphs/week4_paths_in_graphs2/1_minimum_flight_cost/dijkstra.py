@@ -1,6 +1,7 @@
 #Uses python3
 #Pierce Lovesee
 #July 6th, 2021
+#Good job! (Max time used: 0.40/10.00, max memory used: 47517696/536870912.)
 
 import sys
 import queue
@@ -10,26 +11,29 @@ import queue
 def distance(adj, cost, s, t, dist, prev):
 
     def dijkstra(s): #implemendation of Dijkstra's algorithm
-        Q = [[float('inf'), i] for i in range(len(adj))] #min-priority queue
-        # Q is prioritized based on minimum distance from 's'
-        Q[s][0] = 0 # set distance to 's' to 0 in queue
+        Q = queue.PriorityQueue() #create instance of priority queue
+        for i in range(len(dist) - 1): #initialize (n-1) distances to infinite
+            Q.put([float('inf'), i]) #sort by distance, associate index
+        Q.put([0, s]) # set distance to 's' to 0 in min-heap
         dist[s] = 0 # set distance in dist array to 0 for 's'
-        while bool(Q): #while the queue is not empty, do the following:
-            Q = sorted(Q) #sort Q by distace and save as the new array
-            u = Q.pop(0) #dequeue the node with the shortest distance from 's'
+        while not Q.empty(): #while the queue is not empty, do the following:
+             #sort Q by distace and save as the new array
+            u = Q.get() #dequeue the node with the shortest distance from 's'
             if u[0] == float('inf'): #if 'u's distance from 's' is inf., break
                 break
             # otherwise, do the following for all of 'u's adjacent nodes:
             for n, v in enumerate(adj[u[1]]):
                 if dist[v] > dist[u[1]] + cost[u[1]][n]: #if a shorter path is found
                     dist[v] = dist[u[1]] + cost[u[1]][n] #save that path
-                    Q.append([dist[v], v]) #and add that node to the queue
+                    Q.put([dist[v], v]) #and add that node to the min-heap
                     prev[v] = u[1]# record the previous node for the shortest path
     dijkstra(s) #envoke Dijkstra's algorithm
     tDist = dist[t] #determine the cost for 's' to 't'
     if tDist == float('inf'): #if 't' is unreachable from 's'
         return -1 #then return error
     return tDist #otherwise, return the cost-distance from 's' to 't'
+
+
 
 if __name__ == '__main__':
     input = sys.stdin.read()
