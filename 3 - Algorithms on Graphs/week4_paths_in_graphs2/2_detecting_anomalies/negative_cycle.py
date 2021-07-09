@@ -15,7 +15,9 @@ def negCycleDetect(adj, cost):
             prev[v] = u
 
     def detectNegativeCycle():
-        distCycle1 = dist
+        distCycle1 = []
+        for i in range(len(adj)):
+            distCycle1.append(dist[i])
         for u in range(len(adj)):
             for n, v in enumerate(adj[u]):
                 relax(u, v, n)
