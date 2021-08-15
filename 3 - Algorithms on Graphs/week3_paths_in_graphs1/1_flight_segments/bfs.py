@@ -75,4 +75,4 @@ if __name__ == '__main__':
     dist = [float('inf') for _ in range(n)] #initialize distance list to infinity
     prev = [-1 for _ in range(n)] #initialize prev. node array to -1 (no such node)
     print(distance(adj, s, t, dist, prev))
-    #print(reconPath(s, t, prev)) # Uncommenting displays the node path
+    print(reconPath(s, t, prev)) # Uncommenting displays the node path
